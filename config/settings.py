@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'drf_yasg',
 
     'apps.common',
     'apps.debts',
@@ -104,6 +105,7 @@ JAZZMIN_SETTINGS = {
 
     "topmenu_links": [
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Swagger", "url": "schema-swagger-ui", "permissions": ["auth.view_user"]},
     ],
 
     "usermenu_links": [
