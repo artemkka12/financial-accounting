@@ -10,7 +10,7 @@ class BaseModel(models.Model):
 
 
 class Currency(models.TextChoices):
-    MDL = 'MDL', 'MDL'
-    USD = 'USD', 'USD'
-    EUR = 'EUR', 'EUR'
-    GBP = 'GBP', 'GBP'
+    MDL = "MDL", "MDL"
+    USD = "USD", "USD"
+    EUR = "EUR", "EUR"
+    GBP = "GBP", "GBP"
