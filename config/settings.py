@@ -104,7 +104,7 @@ JAZZMIN_SETTINGS = {
     "copyright": "Artiom Preatca 2022",
 
     "topmenu_links": [
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"name": "Swagger", "url": "schema-swagger-ui", "permissions": ["auth.view_user"]},
     ],
 
