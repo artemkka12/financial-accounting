@@ -2,14 +2,14 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from ..common.models import (
-    CommonModel,
+    BaseModel,
     Currency,
 )
 
 User = get_user_model()
 
 
-class Category(CommonModel):
+class Category(BaseModel):
     name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -21,7 +21,7 @@ class Category(CommonModel):
         verbose_name_plural = 'Categories'
 
 
-class Expense(CommonModel):
+class Expense(BaseModel):
     currency = models.CharField(
         choices=Currency.choices,
         default=Currency.USD,
