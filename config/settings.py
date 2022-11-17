@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'apps.common',
+    'apps.debts',
+    'apps.expenses',
 ]
 
 MIDDLEWARE = [
@@ -155,4 +157,3 @@ JAZZMIN_UI_TWEAKS = {
         "success": "btn-outline-success"
     }
 }
-
