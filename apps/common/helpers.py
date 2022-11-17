@@ -14,10 +14,10 @@ class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
 schema_view = get_schema_view(
     openapi.Info(
         title="Finance accounting API",
-        default_version='v1',
+        default_version="v1",
         description="Finance accounting API",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
-    generator_class=BothHttpAndHttpsSchemaGenerator
+    generator_class=BothHttpAndHttpsSchemaGenerator,
 )

@@ -17,15 +17,13 @@ class Category(BaseModel):
         return self.name
 
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
 
 class Expense(BaseModel):
     currency = models.CharField(
-        choices=Currency.choices,
-        default=Currency.USD,
-        max_length=3
+        choices=Currency.choices, default=Currency.USD, max_length=3
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
@@ -33,4 +31,4 @@ class Expense(BaseModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.category} - {self.amount} {self.currency}'
+        return f"{self.category} - {self.amount} {self.currency}"
