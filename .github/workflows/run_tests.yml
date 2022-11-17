@@ -29,3 +29,9 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
       - name: View poetry --help
         run: poetry --help
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run tests
+        run: python manage.py test --noinput
