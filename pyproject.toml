@@ -15,6 +15,7 @@ django-jazzmin = "^2.6.0"
 flake8 = "^5.0.4"
 drf-yasg = "^1.21.4"
 black = "^22.10.0"
+pre-commit = "^2.20.0"
 
 
 [build-system]
