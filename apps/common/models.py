@@ -7,3 +7,10 @@ class CommonModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Currency(models.TextChoices):
+    MDL = 'MDL', 'MDL'
+    USD = 'USD', 'USD'
+    EUR = 'EUR', 'EUR'
+    GBP = 'GBP', 'GBP'
