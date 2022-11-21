@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG").lower() in ("true", "1", "t", "y", "yes")
 
 ALLOWED_HOSTS = []
 
@@ -21,11 +21,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Third party apps
     "rest_framework",
     "drf_yasg",
+    # Local apps
     "apps.common",
     "apps.debts",
     "apps.expenses",
+    "apps.incomes",
+    "apps.users",
+    "apps.attachments",
 ]
 
 MIDDLEWARE = [
@@ -90,7 +95,13 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
+MEDIA_URL = "media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "users.User"
 
 JAZZMIN_SETTINGS = {
     "site_title": "Financial accounting",
