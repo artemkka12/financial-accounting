@@ -5,7 +5,9 @@ from .models import Attachment, Category, Expense
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["pk", "name"]
+    list_display = ["pk", "name", "user"]
+    search_fields = ["name", "user__username"]
+    list_filter = ["user"]
 
 
 @admin.register(Expense)
