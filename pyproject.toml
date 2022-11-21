@@ -17,6 +17,20 @@ drf-yasg = "^1.21.4"
 black = "^22.10.0"
 pre-commit = "^2.20.0"
 
+[tool.black]
+line-length = 120
+target-version = ["py310"]
+
+
+[tool.vulture]
+min_confidence = 65
+paths = ["apps"]
+exclude = [
+    "**/fixtures/*",
+    "**/tests/*",
+    "**/migrations/*",
+    "users/models.py",
+]
 
 [build-system]
 requires = ["poetry-core"]
