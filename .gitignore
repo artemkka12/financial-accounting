@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 .idea
 
-
-!media/default_categories
+# exclude all media except default_categories
+media/user_categories

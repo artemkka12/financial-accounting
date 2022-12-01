@@ -34,4 +34,4 @@ class Command(BaseCommand):
 
         Category.objects.bulk_create(categories)
 
-        self.stdout.write(self.style.SUCCESS("Successfully loaded default categories"))
+        self.stdout.write(self.style.SUCCESS("\nSuccessfully loaded default categories\n"))
