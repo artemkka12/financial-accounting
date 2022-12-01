@@ -1,6 +1,5 @@
+from models import Attachment
 from rest_framework import serializers
-
-from ..attachments.models import Attachment
 
 
 class AttachmentSerializer(serializers.ModelSerializer):

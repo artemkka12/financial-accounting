@@ -11,7 +11,7 @@ def upload_to_user_id(instance: "Attachment", filename: str) -> str:
 
 
 class Attachment(BaseModel):
-    file = models.FileField(upload_to=upload_to_user_id)
+    file = models.FileField(upload_to=upload_to_user_id, null=True, blank=True)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
