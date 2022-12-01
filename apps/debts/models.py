@@ -1,6 +1,6 @@
 from django.db import models
 
-from ..common.models import BaseModel
+from ..common.models import BaseModel, Currency
 from ..users.models import User
 
 
@@ -10,6 +10,7 @@ class Debt(BaseModel):
         LEND = "Lend", "Lend"
 
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    currency = models.CharField(choices=Currency.choices, max_length=3, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     is_paid = models.BooleanField(default=False)
     type = models.CharField(choices=DebtType.choices, max_length=32, null=True, blank=True)
