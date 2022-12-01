@@ -1,13 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.db import models
+from rest_framework import viewsets
 
-from apps.common.models import BaseModel, Currency
-
-User = get_user_model()
+from .models import Income
+from .serializers import IncomeSerializer
 
 
-class Income(BaseModel):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    currency = models.CharField(choices=Currency.choices, default=Currency.USD, max_length=3)
-    description = models.TextField()
+class IncomeViewSet(viewsets.ModelViewSet):
+    queryset = Income.objects.all()
+    serializer_class = IncomeSerializer

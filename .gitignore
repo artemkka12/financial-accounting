@@ -128,3 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea
+
+# exclude all media except default_categories
+media/user_categories
