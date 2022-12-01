@@ -15,12 +15,12 @@ class Command(BaseCommand):
         user_id = kwargs.get("user_id")
 
         images = {
-            "Food": Attachment.objects.get_or_create(file="food.jpeg")[0],
-            "Transport": Attachment.objects.get_or_create(file="transport.jpeg")[0],
-            "Clothes": Attachment.objects.get_or_create(file="clothes.jpeg")[0],
-            "House": Attachment.objects.get_or_create(file="house.jpg")[0],
-            "Other": Attachment.objects.get_or_create(file="other.png")[0],
-            "Sport": Attachment.objects.get_or_create(file="sport.png")[0],
+            "Food": Attachment.objects.get_or_create(file="default_categories/food.jpeg")[0],
+            "Transport": Attachment.objects.get_or_create(file="default_categories/transport.jpeg")[0],
+            "Clothes": Attachment.objects.get_or_create(file="default_categories/clothes.jpeg")[0],
+            "House": Attachment.objects.get_or_create(file="default_categories/house.jpg")[0],
+            "Other": Attachment.objects.get_or_create(file="default_categories/other.png")[0],
+            "Sport": Attachment.objects.get_or_create(file="default_categories/sport.png")[0],
         }
 
         categories = [
