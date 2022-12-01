@@ -1,6 +1,7 @@
-from models import Debt
 from rest_framework import viewsets
-from serializers import DebtSerializer
+
+from .models import Debt
+from .serializers import DebtSerializer
 
 
 class DebtViewSet(viewsets.ModelViewSet):

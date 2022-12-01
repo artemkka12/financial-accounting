@@ -1,6 +1,7 @@
-from models import Income
 from rest_framework import viewsets
-from serializers import IncomeSerializer
+
+from .models import Income
+from .serializers import IncomeSerializer
 
 
 class IncomeViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from models import Income
+
+from .models import Income
 
 
 @admin.register(Income)
