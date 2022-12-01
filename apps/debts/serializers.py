@@ -1,5 +1,6 @@
-from models import Debt
 from rest_framework import serializers
+
+from .models import Debt
 
 
 class DebtSerializer(serializers.ModelSerializer):
