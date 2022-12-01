@@ -16,6 +16,7 @@ flake8 = "^5.0.4"
 drf-yasg = "^1.21.4"
 black = "^22.10.0"
 pre-commit = "^2.20.0"
+djangorestframework-simplejwt = "^5.2.2"
 
 [tool.black]
 line-length = 120
