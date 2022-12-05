@@ -4,16 +4,39 @@ on:
   workflow_call:
   workflow_dispatch:
   push:
-    branches: [ main ]
-
+    branches:
+      - master
+      - development
   pull_request:
-    branches: [ main ]
+    branches:
+      - master
+      - development
 
 env:
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
   DEBUG: ${{ secrets.DEBUG }}
+  DB_NAME: ${{ secrets.DB_NAME }}
+  DB_USER: ${{ secrets.DB_USER }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_PORT: ${{ secrets.DB_PORT }}
 
 jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:10.10
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: db_test
+        ports:
+          - 5432/tcp
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +84,7 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         with:
-          variableNames: SECRET_KEY,DEBUG
+          variableNames: SECRET_KEY,DEBUG,DB_NAME,DB_USER,DB_PASSWORD,DB_HOST,DB_PORT
           envPath: '.env'
       #----------------------------------------------
       #              run test suite
