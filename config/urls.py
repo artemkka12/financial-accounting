@@ -18,6 +18,10 @@ urlpatterns = [
                 path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
                 path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
                 path("attachments/", include("apps.attachments.urls")),
+                path("debts/", include("apps.debts.urls")),
+                path("expenses/", include("apps.expenses.urls")),
+                path("incomes/", include("apps.incomes.urls")),
+                path("users/", include("apps.users.urls")),
             ]
         ),
     ),
