@@ -4,6 +4,6 @@ from .views import ExpenseViewSet
 
 router = DefaultRouter(trailing_slash=False)
 
-router.register(r"", ExpenseViewSet, basename="expenses")
+router.register(r"expenses", ExpenseViewSet, basename="expenses")
 
 urlpatterns = router.urls

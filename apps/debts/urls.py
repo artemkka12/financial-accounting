@@ -4,6 +4,6 @@ from .views import DebtViewSet
 
 router = DefaultRouter(trailing_slash=False)
 
-router.register(r"", DebtViewSet, basename="debts")
+router.register(r"debts", DebtViewSet, basename="debts")
 
 urlpatterns = router.urls
