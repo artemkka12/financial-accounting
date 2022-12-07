@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db import models
 from django.db.models import Sum
 
@@ -23,8 +21,17 @@ class Category(BaseModel):
 
 
 class ExpenseQuerySet(models.QuerySet):
-    def today_expenses(self):
-        return self.filter(created_at__date=datetime.today().date()).values("currency").annotate(amount=Sum("amount"))
+    def get_total(self):
+        return self.values("currency").annotate(amount=Sum("amount"))
+
+    def get_total_by_category(self):
+        categories = Category.objects.filter(id__in=self.values("category"))
+        for category in categories:
+            category_total = self.filter(category=category).values("currency").annotate(amount=Sum("amount"))
+            yield {
+                "category": category,
+                "total": category_total,
+            }
 
 
 class Expense(BaseModel):

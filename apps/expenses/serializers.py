@@ -1,6 +1,15 @@
 from rest_framework import serializers
 
-from .models import Expense
+from ..attachments.serializers import AttachmentSerializer
+from .models import Category, Expense
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    image = AttachmentSerializer()
+
+    class Meta:
+        model = Category
+        fields = "__all__"
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
@@ -9,7 +18,13 @@ class ExpenseSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TodayExpensesSerializer(serializers.ModelSerializer):
+class TotalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = ["currency", "amount"]
+
+
+# noinspection PyAbstractClass
+class TotalByCategorySerializer(serializers.Serializer):
+    category = CategorySerializer()
+    total = TotalSerializer(many=True)
