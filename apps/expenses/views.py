@@ -6,37 +6,44 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Expense
-from .serializers import ExpenseSerializer, TodayExpensesSerializer
+from .serializers import ExpenseSerializer, TotalByCategorySerializer, TotalSerializer
 
 
 class ExpenseViewSet(ModelViewSet):
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
-    permission_classes = [
-        IsAuthenticated,
-    ]
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ["description", "category__name"]
     ordering_fields = ["created_at", "amount"]
     filterset_fields = {
-        "user": ["exact"],
+        "user_id": ["exact"],
         "currency": ["exact"],
         "category": ["exact"],
         "amount": ["exact", "lte", "gte"],
         "created_at": ["exact", "lte", "gte"],
     }
 
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+    @action(
+        detail=False,
+        methods=["GET"],
+        url_path="get-total",
+        url_name="get-total",
+    )
+    def get_total(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        data = queryset.get_total()
+        serializer = TotalSerializer(data, many=True)
+        return Response(serializer.data)
 
     @action(
         detail=False,
         methods=["GET"],
-        url_path="today-expenses",
-        url_name="today-expenses",
-        serializer_class=TodayExpensesSerializer,
+        url_path="get-total-by-category",
+        url_name="get-total-by-category",
     )
-    def today_expenses(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        today_expenses = queryset.today_expenses()
-        return Response(TodayExpensesSerializer(today_expenses, many=True).data)
+    def get_total_by_category(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        data = queryset.get_total_by_category()
+        serializer = TotalByCategorySerializer(data, many=True)
+        return Response(serializer.data)
