@@ -6,7 +6,12 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Expense
-from .serializers import ExpenseSerializer, TotalByCategorySerializer, TotalSerializer
+from .serializers import (
+    ExpenseReportSerializer,
+    ExpenseSerializer,
+    TotalByCategoriesSerializer,
+    TotalSerializer,
+)
 
 
 class ExpenseViewSet(ModelViewSet):
@@ -27,10 +32,10 @@ class ExpenseViewSet(ModelViewSet):
     @action(
         detail=False,
         methods=["GET"],
-        url_path="get-total",
-        url_name="get-total",
+        url_path="total-spent",
+        url_name="total-spent",
     )
-    def get_total(self, request, *args, **kwargs):
+    def total_spent(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         data = queryset.get_total()
         serializer = TotalSerializer(data, many=True)
@@ -39,11 +44,23 @@ class ExpenseViewSet(ModelViewSet):
     @action(
         detail=False,
         methods=["GET"],
-        url_path="get-total-by-category",
-        url_name="get-total-by-category",
+        url_path="total-by-categories",
+        url_name="total-by-categories",
     )
-    def get_total_by_category(self, request, *args, **kwargs):
+    def total_by_categories(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         data = queryset.get_total_by_category()
-        serializer = TotalByCategorySerializer(data, many=True)
+        serializer = TotalByCategoriesSerializer(data, many=True)
+        return Response(serializer.data)
+
+    @action(
+        detail=False,
+        methods=["GET"],
+        url_path="report",
+        url_name="report",
+    )
+    def report(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        data = queryset.get_report()
+        serializer = ExpenseReportSerializer(data, many=True)
         return Response(serializer.data)
