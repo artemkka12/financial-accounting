@@ -7,6 +7,8 @@ from django.db import models
 from ..common.models import BaseModel
 from ..users.models import User
 
+__all__ = ["Attachment"]
+
 
 def upload_to_user_id(instance: "Attachment", filename: str) -> str:
     return Path(f"user_categories/{str(instance.user_id)}").joinpath(filename).as_posix()

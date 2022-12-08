@@ -4,6 +4,8 @@ from django.dispatch import receiver
 
 from ..common.models import BaseModel
 
+__all__ = ["User"]
+
 
 class User(BaseModel, AbstractUser):
     pass

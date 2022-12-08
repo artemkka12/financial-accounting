@@ -5,6 +5,12 @@ from ..attachments.models import Attachment
 from ..common.models import BaseModel, Currency
 from ..users.models import User
 
+__all__ = [
+    "Expense",
+    "ExpenseQuerySet",
+    "Category",
+]
+
 
 class Category(BaseModel):
     name = models.CharField(max_length=255)

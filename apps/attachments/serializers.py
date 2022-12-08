@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from .models import Attachment
 
+__all__ = ["AttachmentSerializer", "ShortAttachmentSerializer"]
+
 
 class AttachmentSerializer(serializers.ModelSerializer):
     class Meta:
