@@ -3,6 +3,8 @@ from django.db import models
 from ..common.models import BaseModel, Currency
 from ..users.models import User
 
+__all__ = ["Debt"]
+
 
 class Debt(BaseModel):
     class DebtType(models.TextChoices):

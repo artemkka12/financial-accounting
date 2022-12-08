@@ -3,6 +3,8 @@ from django.db import models
 from ..common.models import BaseModel, Currency
 from ..users.models import User
 
+__all__ = ["Income"]
+
 
 class Income(BaseModel):
     currency = models.CharField(choices=Currency.choices, default=Currency.USD, max_length=3)

@@ -5,13 +5,28 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Expense
+from .models import Category, Expense
 from .serializers import (
-    ExpenseReportSerializer,
+    CategorySerializer,
     ExpenseSerializer,
+    ReportSerializer,
     TotalByCategoriesSerializer,
     TotalSerializer,
 )
+
+__all__ = ["ExpenseViewSet", "CategoryViewSet"]
+
+
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class ExpenseViewSet(ModelViewSet):
@@ -28,6 +43,12 @@ class ExpenseViewSet(ModelViewSet):
         "amount": ["exact", "lte", "gte"],
         "created_at": ["exact", "lte", "gte"],
     }
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     @action(
         detail=False,
@@ -62,5 +83,5 @@ class ExpenseViewSet(ModelViewSet):
     def report(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         data = queryset.get_report()
-        serializer = ExpenseReportSerializer(data, many=True)
+        serializer = ReportSerializer(data, many=True)
         return Response(serializer.data)
