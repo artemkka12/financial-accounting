@@ -1,9 +1,13 @@
+import urllib.parse
 from pathlib import Path
 
+from django.conf import settings
 from django.db import models
 
 from ..common.models import BaseModel
 from ..users.models import User
+
+__all__ = ["Attachment"]
 
 
 def upload_to_user_id(instance: "Attachment", filename: str) -> str:
@@ -16,3 +20,7 @@ class Attachment(BaseModel):
 
     def __str__(self):
         return self.file.name
+
+    @property
+    def url(self) -> str:
+        return urllib.parse.urljoin(settings.SITE_URL, self.file.url)

@@ -23,9 +23,7 @@ env:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:latest

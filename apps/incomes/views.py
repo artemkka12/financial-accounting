@@ -3,6 +3,8 @@ from rest_framework import viewsets
 from .models import Income
 from .serializers import IncomeSerializer
 
+__all__ = ["IncomeViewSet"]
+
 
 class IncomeViewSet(viewsets.ModelViewSet):
     queryset = Income.objects.all()

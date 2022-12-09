@@ -15,6 +15,8 @@ from .serializers import (
     PartialPaySerializer,
 )
 
+__all__ = ["DebtViewSet"]
+
 
 class DebtViewSet(viewsets.ModelViewSet):
     queryset = Debt.objects.all()
