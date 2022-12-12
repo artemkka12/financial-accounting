@@ -43,7 +43,7 @@ class DebtsTestCase(CustomAPITestCase):
         response = self.client.put(reverse("debts-detail", kwargs={"pk": debt.id}), data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        data = {"amount": debt.amount - debt.amount / 2}
+        data = {"amount": round(debt.amount - debt.amount / 2)}
         response = self.client.patch(reverse("debts-partial-pay", kwargs={"pk": debt.id}), data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
