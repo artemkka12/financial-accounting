@@ -187,3 +187,5 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+SITE_URL = os.getenv("SITE_URL")

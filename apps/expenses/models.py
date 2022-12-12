@@ -1,11 +1,15 @@
-from datetime import datetime
-
 from django.db import models
 from django.db.models import Sum
 
 from ..attachments.models import Attachment
 from ..common.models import BaseModel, Currency
 from ..users.models import User
+
+__all__ = [
+    "Expense",
+    "ExpenseQuerySet",
+    "Category",
+]
 
 
 class Category(BaseModel):
@@ -22,9 +26,30 @@ class Category(BaseModel):
         unique_together = ("name", "user")
 
 
+# noinspection PyUnresolvedReferences
 class ExpenseQuerySet(models.QuerySet):
-    def today_expenses(self):
-        return self.filter(created_at__date=datetime.today().date()).values("currency").annotate(amount=Sum("amount"))
+    def total(self) -> "ExpenseQuerySet":
+        return self.values("currency").annotate(amount=Sum("amount"))
+
+    def total_by_categories(self) -> "ExpenseQuerySet":
+        categories = Category.objects.filter(id__in=self.values("category"))
+        for category in categories:
+            expenses = self.filter(category=category)
+            total = expenses.total()
+            yield {
+                "category": category,
+                "total": total,
+            }
+
+    def report(self) -> "ExpenseQuerySet":
+        dates = self.dates("created_at", "day")
+        for date in dates:
+            expenses = self.filter(created_at__date=date)
+            total_by_categories = expenses.total_by_categories()
+            yield {
+                "date": date,
+                "total_by_categories": total_by_categories,
+            }
 
 
 class Expense(BaseModel):
@@ -36,5 +61,5 @@ class Expense(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.category} - {self.amount} {self.currency}"
