@@ -68,8 +68,7 @@ class DebtViewSet(viewsets.ModelViewSet):
     )
     def mark_as_paid(self, request, *args, **kwargs):
         debt = self.get_object()
-        debt.is_paid = True
-        debt.save(update_fields=["is_paid"])
+        debt.mark_as_paid()
         serializer = self.get_serializer(debt)
         return Response(serializer.data)
 

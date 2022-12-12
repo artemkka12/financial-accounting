@@ -3,14 +3,15 @@ from django.db import models
 from ..common.models import BaseModel, Currency
 from ..users.models import User
 
-__all__ = ["Debt"]
+__all__ = ["Debt", "DebtType"]
+
+
+class DebtType(models.TextChoices):
+    BORROW = "Borrow", "Borrow"
+    LEND = "Lend", "Lend"
 
 
 class Debt(BaseModel):
-    class DebtType(models.TextChoices):
-        BORROW = "Borrow", "Borrow"
-        LEND = "Lend", "Lend"
-
     currency = models.CharField(choices=Currency.choices, max_length=3, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     partial_paid = models.BooleanField(default=False)
@@ -38,3 +39,9 @@ class Debt(BaseModel):
             self.partial_paid_amount = self.amount
 
         self.save(update_fields=["partial_paid", "partial_paid_amount", "is_paid"])
+
+    def mark_as_paid(self):
+        self.is_paid = True
+        self.partial_paid = True
+        self.partial_paid_amount = self.amount
+        self.save(update_fields=["is_paid", "partial_paid", "partial_paid_amount"])
