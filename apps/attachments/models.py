@@ -23,4 +23,5 @@ class Attachment(BaseModel):
 
     @property
     def url(self) -> str:
-        return urllib.parse.urljoin(settings.SITE_URL, self.file.url)
+        if self.file and hasattr(self.file, "url"):
+            return urllib.parse.urljoin(settings.SITE_URL, self.file.url)

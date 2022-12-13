@@ -12,6 +12,7 @@ from .serializers import (
     ReportSerializer,
     TotalByCategoriesSerializer,
     TotalSerializer,
+    CreateCategorySerializer,
 )
 
 __all__ = ["ExpenseViewSet", "CategoryViewSet"]
@@ -21,6 +22,11 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = (IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return CreateCategorySerializer
+        return super().get_serializer_class()
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
