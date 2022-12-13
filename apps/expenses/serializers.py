@@ -1,11 +1,12 @@
 from rest_framework import serializers
 
-from ..attachments.serializers import ShortAttachmentSerializer
 from .models import Category, Expense
+from ..attachments.serializers import ShortAttachmentSerializer
 
 __all__ = [
     "CategorySerializer",
     "ShortCategorySerializer",
+    "CreateCategorySerializer",
     "ExpenseSerializer",
     "TotalSerializer",
     "TotalByCategoriesSerializer",
@@ -19,6 +20,15 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+
+
+class CreateCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["name", "image"]
+
+    def to_representation(self, instance):
+        return CategorySerializer(instance).data
 
 
 class ShortCategorySerializer(serializers.ModelSerializer):
