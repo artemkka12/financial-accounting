@@ -1,8 +1,7 @@
-# python manage.py load_categories --user_id=instance.id
 from django.core.management import BaseCommand
 
-from apps.attachments.models import Attachment
-from apps.expenses.models import Category
+from ....attachments.models import Attachment
+from ....expenses.models import Category
 
 
 class Command(BaseCommand):

@@ -2,7 +2,7 @@ from django.urls import reverse
 from faker import Faker
 from rest_framework.test import APITestCase
 
-from apps.users.models import User
+from ..users.models import User
 
 fake = Faker()
 
