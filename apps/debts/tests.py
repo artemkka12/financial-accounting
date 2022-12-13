@@ -2,8 +2,8 @@ from django.urls import reverse
 from faker import Faker
 from rest_framework import status
 
-from apps.common.models import Currency
-from apps.common.tests import CustomAPITestCase
+from ..common.models import Currency
+from ..common.tests import CustomAPITestCase
 
 from .models import Debt, DebtType
 

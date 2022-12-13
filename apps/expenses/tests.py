@@ -2,9 +2,9 @@ from django.urls import reverse
 from faker import Faker
 from rest_framework import status
 
-from apps.common.models import Currency
-from apps.common.tests import CustomAPITestCase
-from apps.expenses.models import Category
+from ..common.models import Currency
+from ..common.tests import CustomAPITestCase
+from ..expenses.models import Category
 
 fake = Faker()
 
@@ -51,3 +51,39 @@ class ExpensesTestCase(CustomAPITestCase):
         response = self.client.get(reverse("expenses-list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
+
+
+class CategoriesTestCase(CustomAPITestCase):
+    def test_categories(self):
+        self.auth()
+
+        data = {"user": self.user.id}
+        files = {"file": open("media/default_categories/food.jpeg", "rb")}
+        response = self.client.post(reverse("attachments-list"), data=data, files=files)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        data = {
+            "name": fake.word(),
+            "image": self.user.attachment_set.all().first().id,
+        }
+        response = self.client.post(reverse("categories-list"), data=data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        category_id = response.data.get("id")
+
+        response = self.client.get(reverse("categories-list"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 7)  # 6 default + 1 created
+
+        response = self.client.get(reverse("categories-detail", kwargs={"pk": category_id}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = {"name": fake.text()}
+        response = self.client.patch(reverse("categories-detail", kwargs={"pk": category_id}), data=data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.delete(reverse("categories-detail", kwargs={"pk": category_id}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.get(reverse("categories-list"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 6)  # 6 default
