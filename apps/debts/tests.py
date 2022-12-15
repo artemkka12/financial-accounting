@@ -2,10 +2,8 @@ from django.urls import reverse
 from faker import Faker
 from rest_framework import status
 
-from ..common.models import Currency
 from ..common.tests import CustomAPITestCase
-
-from .models import Debt, DebtType
+from .models import Debt
 
 fake = Faker()
 
@@ -15,10 +13,9 @@ class DebtsTestCase(CustomAPITestCase):
         self.auth()
         data = {
             "amount": fake.pyfloat(left_digits=2, right_digits=2, positive=True),
-            "currency": Currency.MDL.value,
             "description": fake.text(),
             "second_person": fake.name(),
-            "type": DebtType.BORROW.value,
+            "type": Debt.DebtType.BORROW.value,
             "deadline": fake.date(),
         }
         response = self.client.post(reverse("debts-list"), data=data)
@@ -34,10 +31,9 @@ class DebtsTestCase(CustomAPITestCase):
 
         data = {
             "amount": fake.pyfloat(left_digits=2, right_digits=2, positive=True),
-            "currency": Currency.EUR.value,
             "description": fake.text(),
             "second_person": fake.name(),
-            "type": DebtType.BORROW.value,
+            "type": Debt.DebtType.BORROW.value,
             "deadline": fake.date(),
         }
         response = self.client.put(reverse("debts-detail", kwargs={"pk": debt.id}), data=data)

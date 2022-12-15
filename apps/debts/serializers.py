@@ -4,7 +4,6 @@ from .models import Debt
 
 __all__ = [
     "DebtSerializer",
-    "MarkAsPaidSerializer",
     "PartialPaySerializer",
     "DebtCreateSerializer",
 ]
@@ -25,13 +24,7 @@ class DebtSerializer(serializers.ModelSerializer):
 class DebtCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Debt
-        fields = ["currency", "amount", "description", "type", "second_person", "deadline"]
-
-
-class MarkAsPaidSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Debt
-        fields = ["is_paid"]
+        fields = ["amount", "description", "type", "second_person", "deadline"]
 
 
 # noinspection PyAbstractClass

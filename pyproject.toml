@@ -37,7 +37,9 @@ exclude = [
     "**/migrations/*",
     "users/models.py",
     "expenses/views.py",
-    "debts/views.py"
+    "debts/views.py",
+    "incomes/views.py",
+    "users/views.py",
 ]
 
 [build-system]

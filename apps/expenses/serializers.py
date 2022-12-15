@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from .models import Category, Expense
 from ..attachments.serializers import ShortAttachmentSerializer
+from .models import Category, Expense
 
 __all__ = [
     "CategorySerializer",
@@ -52,13 +52,13 @@ class ExpenseSerializer(serializers.ModelSerializer):
 class TotalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
-        fields = ["currency", "amount"]
+        fields = ["amount"]
 
 
 # noinspection PyAbstractClass
 class TotalByCategoriesSerializer(serializers.Serializer):
     category = ShortCategorySerializer()
-    total = TotalSerializer(many=True)
+    total = serializers.DecimalField(max_digits=10, decimal_places=2)
 
 
 # noinspection PyAbstractClass

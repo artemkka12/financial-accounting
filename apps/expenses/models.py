@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Sum
 
 from ..attachments.models import Attachment
-from ..common.models import BaseModel, Currency
+from ..common.models import BaseModel
 from ..users.models import User
 
 __all__ = [
@@ -29,7 +29,7 @@ class Category(BaseModel):
 # noinspection PyUnresolvedReferences
 class ExpenseQuerySet(models.QuerySet):
     def total(self) -> "ExpenseQuerySet":
-        return self.values("currency").annotate(amount=Sum("amount"))
+        return self.aggregate(amount=Sum("amount"))
 
     def total_by_categories(self) -> "ExpenseQuerySet":
         categories = Category.objects.filter(id__in=self.values("category"))
@@ -38,7 +38,7 @@ class ExpenseQuerySet(models.QuerySet):
             total = expenses.total()
             yield {
                 "category": category,
-                "total": total,
+                "total": total.get("amount"),
             }
 
     def report(self) -> "ExpenseQuerySet":
@@ -55,11 +55,10 @@ class ExpenseQuerySet(models.QuerySet):
 class Expense(BaseModel):
     objects = ExpenseQuerySet.as_manager()
 
-    currency = models.CharField(choices=Currency.choices, default=Currency.USD, max_length=3)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"{self.category} - {self.amount} {self.currency}"
+        return f"{self.category} - {self.amount} {self.user.currency}"

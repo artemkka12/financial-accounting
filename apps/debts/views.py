@@ -6,14 +6,10 @@ from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.serializers import Serializer
 
 from .models import Debt
-from .serializers import (
-    DebtCreateSerializer,
-    DebtSerializer,
-    MarkAsPaidSerializer,
-    PartialPaySerializer,
-)
+from .serializers import DebtCreateSerializer, DebtSerializer, PartialPaySerializer
 
 __all__ = ["DebtViewSet"]
 
@@ -27,16 +23,12 @@ class DebtViewSet(viewsets.ModelViewSet):
     ordering_fields = ["created_at", "amount", "deadline"]
     filterset_fields = {
         "person_id": ["exact"],
-        "currency": ["exact"],
         "amount": ["exact", "lte", "gte"],
         "created_at": ["exact", "lte", "gte"],
         "deadline": ["exact", "lte", "gte"],
         "is_paid": ["exact"],
         "type": ["exact"],
     }
-
-    def get_queryset(self):
-        return self.queryset.filter(person=self.request.user)
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -64,7 +56,7 @@ class DebtViewSet(viewsets.ModelViewSet):
         methods=["PATCH"],
         url_path="mark-as-paid",
         url_name="mark-as-paid",
-        serializer_class=MarkAsPaidSerializer,
+        serializer_class=Serializer,
     )
     def mark_as_paid(self, request, *args, **kwargs):
         debt = self.get_object()

@@ -12,5 +12,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ["pk", "category", "amount", "currency", "description", "user"]
+    list_display = ["pk", "category", "amount", "description", "user"]
     list_filter = ["category", "user"]

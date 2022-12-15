@@ -2,7 +2,6 @@ from django.urls import reverse
 from faker import Faker
 from rest_framework import status
 
-from ..common.models import Currency
 from ..common.tests import CustomAPITestCase
 from ..expenses.models import Category
 
@@ -14,7 +13,6 @@ class ExpensesTestCase(CustomAPITestCase):
         self.auth()
 
         data = {
-            "currency": Currency.MDL.value,
             "amount": fake.pyfloat(left_digits=2, right_digits=2, positive=True),
             "description": fake.text(),
             "user": self.user.id,
@@ -32,7 +30,6 @@ class ExpensesTestCase(CustomAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = {
-            "currency": Currency.EUR.value,
             "amount": fake.pyfloat(left_digits=2, right_digits=2, positive=True),
             "description": fake.text(),
             "user": self.user.id,
