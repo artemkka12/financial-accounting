@@ -21,6 +21,7 @@ psycopg2 = "^2.9.5"
 psycopg2-binary = "^2.9.5"
 django-filter = "^22.1"
 faker = "^15.3.4"
+coverage = "^6.5.0"
 
 [tool.black]
 line-length = 120

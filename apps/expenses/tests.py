@@ -45,6 +45,15 @@ class ExpensesTestCase(CustomAPITestCase):
         response = self.client.patch(reverse("expenses-detail", kwargs={"pk": expense_id}), data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        response = self.client.get(reverse("expenses-total-spent"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(reverse("expenses-total-by-categories"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.client.get(reverse("expenses-report"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         response = self.client.delete(reverse("expenses-detail", kwargs={"pk": expense_id}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
