@@ -8,11 +8,11 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Category, Expense
 from .serializers import (
     CategorySerializer,
+    CreateCategorySerializer,
     ExpenseSerializer,
     ReportSerializer,
     TotalByCategoriesSerializer,
     TotalSerializer,
-    CreateCategorySerializer,
 )
 
 __all__ = ["ExpenseViewSet", "CategoryViewSet"]
@@ -64,7 +64,7 @@ class ExpenseViewSet(ModelViewSet):
     )
     def total_spent(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        data = queryset.get_total()
+        data = queryset.total()
         serializer = TotalSerializer(data, many=True)
         return Response(serializer.data)
 
@@ -76,7 +76,7 @@ class ExpenseViewSet(ModelViewSet):
     )
     def total_by_categories(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        data = queryset.get_total_by_category()
+        data = queryset.total_by_categories()
         serializer = TotalByCategoriesSerializer(data, many=True)
         return Response(serializer.data)
 
@@ -88,6 +88,6 @@ class ExpenseViewSet(ModelViewSet):
     )
     def report(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        data = queryset.get_report()
+        data = queryset.report()
         serializer = ReportSerializer(data, many=True)
         return Response(serializer.data)
