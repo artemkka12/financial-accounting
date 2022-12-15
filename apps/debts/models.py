@@ -1,18 +1,16 @@
 from django.db import models
 
-from ..common.models import BaseModel, Currency
+from ..common.models import BaseModel
 from ..users.models import User
 
-__all__ = ["Debt", "DebtType"]
-
-
-class DebtType(models.TextChoices):
-    BORROW = "Borrow", "Borrow"
-    LEND = "Lend", "Lend"
+__all__ = ["Debt"]
 
 
 class Debt(BaseModel):
-    currency = models.CharField(choices=Currency.choices, max_length=3, null=True, blank=True)
+    class DebtType(models.TextChoices):
+        BORROW = "Borrow", "Borrow"
+        LEND = "Lend", "Lend"
+
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     partial_paid = models.BooleanField(default=False)
     partial_paid_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
