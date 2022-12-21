@@ -13,9 +13,8 @@ class CategoryAdmin(admin.ModelAdmin):
 # noinspection PyMethodMayBeStatic
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ["pk",  "user", "category", "amount", "date", "description"]
+    list_display = ["pk", "user", "category", "amount", "date", "description"]
     list_filter = ["category", "user"]
 
     def date(self, obj):
         return obj.created_at.date()
-

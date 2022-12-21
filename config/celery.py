@@ -1,4 +1,5 @@
 import os
+
 from celery import Celery
 from celery.schedules import crontab
 
@@ -17,18 +18,18 @@ def debug_task(self):
 
 app.conf.beat_schedule = {
     "deadline_today": {
-        "task": 'remind_deadline',
+        "task": "remind_deadline",
         "schedule": crontab(hour=6, minute=0),
         "args": (0,),
     },
     "deadline_tomorrow": {
-        "task": 'remind_deadline',
+        "task": "remind_deadline",
         "schedule": crontab(hour=6, minute=0),
         "args": (1,),
     },
     "deadline_in_a_week": {
-        "task": 'remind_deadline',
+        "task": "remind_deadline",
         "args": (7,),
         "schedule": crontab(hour=6, minute=0),
-    }
+    },
 }

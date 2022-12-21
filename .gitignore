@@ -131,10 +131,3 @@ dmypy.json
 
 # exclude all media except default_categories
 media/user_categories
-
-# coverage
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover

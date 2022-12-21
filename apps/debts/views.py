@@ -1,7 +1,5 @@
 from datetime import date
 
-from django.conf import settings
-from django.core.mail import send_mail
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -51,11 +49,6 @@ class DebtViewSet(viewsets.ModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.filter(deadline__lt=date.today(), is_paid=False)
         serializer = self.get_serializer(queryset, many=True)
-        subject = 'welcome to GFG world'
-        message = f'Hi {self.request.user.username}, thank you for registering in geeksforgeeks.'
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = ["faer.faer.2006@mail.ru", ]
-        send_mail(subject, message, email_from, recipient_list)
         return Response(serializer.data)
 
     @action(
