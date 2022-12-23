@@ -32,4 +32,8 @@ app.conf.beat_schedule = {
         "args": (7,),
         "schedule": crontab(hour=6, minute=0),
     },
+    "monthly_report": {
+        "task": "monthly_report",
+        "schedule": crontab(hour=6, minute=0, day_of_month=1),
+    },
 }
