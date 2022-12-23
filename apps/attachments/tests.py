@@ -5,7 +5,6 @@ from ..common.tests import CustomAPITestCase
 
 
 class AttachmentTestCase(CustomAPITestCase):
-
     def test_attachment(self):
         self.auth()
 

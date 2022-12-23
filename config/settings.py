@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_yasg",
     "django_filters",
+    "django_celery_beat",
+    "django_celery_results",
     # Local apps
     "apps.common",
     "apps.debts",
@@ -189,3 +191,17 @@ SWAGGER_SETTINGS = {
 }
 
 SITE_URL = os.getenv("SITE_URL")
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_PREFETCH_MULTIPLIER = 0
+CELERY_TASK_DEFAULT_QUEUE = "default"
+CELERY_TIMEZONE = "Europe/Chisinau"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
