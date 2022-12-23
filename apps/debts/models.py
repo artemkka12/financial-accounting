@@ -22,7 +22,7 @@ class Debt(BaseModel):
     deadline = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.person} - {self.amount}"
+        return f"{self.id} - {self.amount}"
 
     @property
     def partial_paid_amount_percent(self):
