@@ -9,6 +9,7 @@ REST API for the app.
 1. Python 3.10
 2. PostgreSQL
 3. Celery
+4. Redis
 
 ### Setup
 
