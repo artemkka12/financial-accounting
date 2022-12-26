@@ -83,5 +83,4 @@ jobs:
       - name: Run tests
         run: |
           source .venv/bin/activate
-          python manage.py migrate 
           coverage erase && coverage run manage.py test && coverage report
