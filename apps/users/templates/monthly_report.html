@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Deadline reminder</title>
+</head>
+<body>
+<h1>Report for {{ month }}.</h1>
+<br>
+<h2>Incomes: {{ income }} {{ currency }}</h2>
+<h2>Spent: {{ spent }} {{ currency }}</h2>
+<br>
+<h2>Debts:</h2>
+<h3>Unpaid lent left: {{ unpaid_lent_debts }}</h3>
+<h3>Unpaid borrowed left: {{ unpaid_borrowed_debts }}</h3>
+<br>
+<h2>Expenses by categories:</h2>
+<ul>
+    {% if total_by_categories %}
+        {% for item in total_by_categories %}
+            <li><h3>{{ item.category }}: {{ item.total }} {{ currency }}</h3></li>
+        {% endfor %}
+    {% endif %}
+</ul>
+<br>
+<h2>Expenses by days:</h2>
+<ul>
+    {% if expenses_by_days %}
+        {% for item in expenses_by_days %}
+            <h3>{{ item.date.day }} {{ month }}</h3>
+            <ul>
+                {% if item.total_by_categories %}
+                    {% for expenses in item.total_by_categories %}
+                        <li><h3>{{ expenses.category }}: {{ expenses.total }} {{ currency }}</h3></li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

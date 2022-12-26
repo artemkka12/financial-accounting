@@ -1,5 +1,6 @@
 import datetime
 from datetime import timedelta
+from smtplib import SMTPException
 from typing import Optional
 
 from celery import shared_task
@@ -25,8 +26,13 @@ def remind_deadline(days: int) -> Optional[bool]:
                 f'Hello, you have {debts.count()} {"debt" if debts.count() == 1 else "debts"} to pay '
                 f"where deadline is {deadline}."
             )
-            user.email_user(subject="Deadline reminder.", message=message, from_email=settings.EMAIL_HOST_USER)
-            logger.info(f"Email sent to {user.username}.")
+
+            try:
+                user.email_user(subject="Deadline reminder.", message=message, from_email=settings.EMAIL_HOST_USER)
+                logger.info("Email sent.")
+            except SMTPException as e:
+                logger.error(f"Email not sent: {e}")
+                return False
         else:
             logger.info("No debts for this user.")
 
