@@ -76,5 +76,4 @@ class DebtViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         debt.partial_pay(serializer.validated_data.get("amount"))
-        serializer = self.get_serializer(debt)
         return Response(serializer.data)

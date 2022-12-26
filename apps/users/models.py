@@ -12,6 +12,11 @@ __all__ = ["User"]
 class User(BaseModel, AbstractUser):
     currency = models.CharField(max_length=3, choices=Currency.choices, default=Currency.USD)
 
+    def save(self, *args, **kwargs):
+        self.username = self.email
+        self.set_password(self.password)
+        super().save(*args, **kwargs)
+
     @property
     def budget(self):
         incomes = self.income_set.all().aggregate(Sum("amount"))["amount__sum"]
