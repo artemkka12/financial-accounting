@@ -9,9 +9,9 @@ from django.db.models import Sum
 from django.template.loader import get_template
 
 from ..debts.models import Debt
+from ..expenses.models import Expense
 from ..incomes.models import Income
-from ..users.models import User
-from .models import Expense
+from .models import User
 
 logger = get_task_logger(__name__)
 
