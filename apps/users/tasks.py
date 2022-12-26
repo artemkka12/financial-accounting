@@ -27,10 +27,10 @@ def send_monthly_report(user: User):
     income = Income.objects.filter(user=user, created_at__month=date.today().month - 1).aggregate(total=Sum("amount"))
 
     unpaid_lent_debts = Debt.objects.filter(
-        person=user, is_paid=False, deadline__month=date.today().month - 1, type=Debt.DebtType.LEND.value
+        user=user, is_paid=False, deadline__month=date.today().month - 1, type=Debt.DebtType.LEND.value
     ).count()
     unpaid_borrowed_debts = Debt.objects.filter(
-        person=user, is_paid=False, deadline__month=date.today().month - 1, type=Debt.DebtType.BORROW.value
+        user=user, is_paid=False, deadline__month=date.today().month - 1, type=Debt.DebtType.BORROW.value
     ).count()
 
     context = {

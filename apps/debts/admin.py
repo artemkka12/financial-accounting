@@ -8,7 +8,7 @@ from .models import Debt
 class DebtAdmin(admin.ModelAdmin):
     list_display = [
         "id",
-        "person",
+        "user",
         "second_person",
         "amount",
         "type",
@@ -18,9 +18,9 @@ class DebtAdmin(admin.ModelAdmin):
         "partial_paid",
         "partial_paid_amount",
     ]
-    list_filter = ["person", "second_person", "is_paid", "partial_paid"]
-    search_fields = ["person", "second_person"]
+    list_filter = ["user", "second_person", "is_paid", "partial_paid"]
+    search_fields = ["user", "second_person"]
     ordering = ["-created_at"]
 
     def currency(self, obj):
-        return obj.person.currency
+        return obj.user.currency

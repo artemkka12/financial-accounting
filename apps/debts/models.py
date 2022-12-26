@@ -16,7 +16,7 @@ class Debt(BaseModel):
     is_paid = models.BooleanField(default=False)
     partial_paid = models.BooleanField(default=False)
     partial_paid_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
-    person = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
     second_person = models.CharField(max_length=254, null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
