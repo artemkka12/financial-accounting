@@ -22,7 +22,7 @@ class DebtViewSet(viewsets.ModelViewSet):
     search_fields = ["description", "second_person"]
     ordering_fields = ["created_at", "amount", "deadline"]
     filterset_fields = {
-        "person_id": ["exact"],
+        "user_id": ["exact"],
         "amount": ["exact", "lte", "gte"],
         "created_at": ["exact", "lte", "gte"],
         "deadline": ["exact", "lte", "gte"],
@@ -37,7 +37,7 @@ class DebtViewSet(viewsets.ModelViewSet):
         return super().get_serializer_class()
 
     def perform_create(self, serializer):
-        serializer.save(person=self.request.user)
+        serializer.save(user=self.request.user)
 
     @action(
         detail=False,
