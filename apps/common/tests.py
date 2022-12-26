@@ -9,7 +9,7 @@ fake = Faker()
 
 class CustomAPITestCase(APITestCase):
     def auth(self):
-        username = fake.user_name()
+        username = fake.email()
         password = fake.password()
         self.user = User.objects.create_user(username, username + "@gmail.com", password, currency="USD")
         jwt_fetch_data = {"username": username, "password": password}
