@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
 from django.db import connection, models
 from django.db.models import Sum
@@ -12,6 +13,10 @@ __all__ = ["User"]
 
 class User(BaseModel, AbstractUser):
     currency = models.CharField(max_length=3, choices=Currency.choices, default=Currency.USD)
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super().save(*args, **kwargs)
 
     @property
     def budget(self):
@@ -40,4 +45,7 @@ def user_post_delete_handler(instance: User, **kwargs):
     from ..expenses.models import Expense
 
     schema_editor: PostgresSchemaEditor = connection.schema_editor()
-    schema_editor.delete_partition(model=Expense(), name=instance.username)
+    partition_name = f"{Expense._meta.db_table}_{instance.username}"
+
+    if partition_name in schema_editor.connection.introspection.table_names():
+        schema_editor.delete_partition(model=Expense(), name=instance.username)
