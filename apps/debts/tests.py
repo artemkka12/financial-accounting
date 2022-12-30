@@ -3,7 +3,7 @@ from faker import Faker
 from rest_framework import status
 
 from ..common.tests import CustomAPITestCase
-from .models import Debt
+from .models import Debt, DebtType
 
 fake = Faker()
 
@@ -15,7 +15,7 @@ class DebtsTestCase(CustomAPITestCase):
             "amount": fake.pyfloat(left_digits=2, right_digits=2, positive=True),
             "description": fake.text(),
             "second_person": fake.name(),
-            "type": Debt.DebtType.BORROW.value,
+            "type": DebtType.BORROW.value,
             "deadline": fake.date(),
         }
         response = self.client.post(reverse("debts-list"), data=data)
@@ -33,7 +33,7 @@ class DebtsTestCase(CustomAPITestCase):
             "amount": fake.pyfloat(left_digits=2, right_digits=2, positive=True),
             "description": fake.text(),
             "second_person": fake.name(),
-            "type": Debt.DebtType.BORROW.value,
+            "type": DebtType.BORROW.value,
             "deadline": fake.date(),
         }
         response = self.client.put(reverse("debts-detail", kwargs={"pk": debt.id}), data=data)

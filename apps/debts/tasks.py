@@ -8,7 +8,7 @@ from celery.utils.log import get_task_logger
 from django.conf import settings
 
 from ..users.models import User
-from .models import Debt
+from .models import DebtType
 
 logger = get_task_logger(__name__)
 
@@ -21,7 +21,7 @@ def remind_deadline(days: int) -> Optional[bool]:
         logger.info(f"User: {user.username}.")
         deadline = datetime.date.today() + timedelta(days=days)
 
-        if debts := user.debt_set.filter(deadline=deadline, is_paid=False, type=Debt.DebtType.BORROW):
+        if debts := user.debt_set.filter(deadline=deadline, is_paid=False, type=DebtType.BORROW):
             message = (
                 f'Hello, you have {debts.count()} {"debt" if debts.count() == 1 else "debts"} to pay '
                 f"where deadline is {deadline}."
