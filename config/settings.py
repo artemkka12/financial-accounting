@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django_filters",
     "django_celery_beat",
     "django_celery_results",
+    "psqlextra",
     # Local apps
     "apps.common",
     "apps.debts",
@@ -69,7 +70,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "psqlextra.backend",
         "NAME": os.getenv("DB_NAME"),
         "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PASSWORD"),

@@ -21,7 +21,7 @@ REST API for the app.
 ### 🔧 .env
 
 ```python
-# DJANGO
+# Django
 SECRET_KEY=
 DEBUG=
 

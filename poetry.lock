@@ -463,6 +463,28 @@ files = [
 django = ">=2.2"
 
 [[package]]
+name = "django-postgres-extra"
+version = "2.0.6"
+description = "Bringing all of PostgreSQL's awesomeness to Django."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django-postgres-extra-2.0.6.tar.gz", hash = "sha256:0ab6a54e0b24159d6fc2b110bca44c98e3b11471c6b236eb0b5c27e8912fd9e0"},
+    {file = "django_postgres_extra-2.0.6-py3-none-any.whl", hash = "sha256:ee405f9d3560fbe9bd0bd4ad6c5a33f15a38ce50c34d9fe8cdf0b9f7f3409c9d"},
+]
+
+[package.dependencies]
+Django = ">=2.0,<5.0"
+python-dateutil = ">=2.8.0,<=3.0.0"
+
+[package.extras]
+analysis = ["autoflake (==1.4)", "autopep8 (==1.6.0)", "black (==22.3.0)", "docformatter (==1.4)", "flake8 (==4.0.1)", "isort (==5.10.0)"]
+docs = ["Sphinx (==2.2.0)", "docutils (<0.18)", "sphinx-rtd-theme (==0.4.3)"]
+publish = ["build (==0.7.0)", "twine (==3.7.1)"]
+test = ["coveralls (==3.3.0)", "dj-database-url (==0.5.0)", "freezegun (==1.1.0)", "psycopg2 (>=2.8.4,<3.0.0)", "pytest (==6.2.5)", "pytest-benchmark (==3.4.1)", "pytest-cov (==3.0.0)", "pytest-django (==4.4.0)", "snapshottest (==0.6.0)", "tox (==3.24.4)"]
+
+[[package]]
 name = "django-timezone-field"
 version = "5.0"
 description = "A Django app providing DB, form, and REST framework fields for zoneinfo and pytz timezone objects."
@@ -1389,4 +1411,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "42a44841094010e842b0b9ae706a231f5c9b1ff1137b48af9d6dc5db38fa0453"
+content-hash = "ddb1abe65bc561ba4fc6c2cfe3c4e688821314a92c6df6e2172c5e46396d560d"

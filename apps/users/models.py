@@ -1,8 +1,10 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.db import connection, models
 from django.db.models import Sum
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from psqlextra.backend.schema import PostgresSchemaEditor
 
 from ..common.models import BaseModel, Currency
 
@@ -13,8 +15,7 @@ class User(BaseModel, AbstractUser):
     currency = models.CharField(max_length=3, choices=Currency.choices, default=Currency.USD)
 
     def save(self, *args, **kwargs):
-        self.username = self.email
-        self.set_password(self.password)
+        self.password = make_password(self.password)
         super().save(*args, **kwargs)
 
     @property
@@ -25,9 +26,26 @@ class User(BaseModel, AbstractUser):
         return incomes - expenses
 
 
+# noinspection PyUnusedLocal
 @receiver(signal=post_save, sender=User)
-def create_default_categories(*args, **kwargs):
-    if kwargs.get("created"):
+def user_post_save_handler(instance: User, created: bool, **kwargs):
+    if created:
         from ..expenses.management.commands.load_categories import Command
+        from ..expenses.models import Expense
 
-        Command().handle(user_id=kwargs.get("instance").id)
+        Command().handle(user_id=instance.id)
+
+        schema_editor: PostgresSchemaEditor = connection.schema_editor()
+        schema_editor.add_list_partition(model=Expense(), name=instance.username, values=[instance.pk])
+
+
+# noinspection PyUnusedLocal
+@receiver(signal=post_delete, sender=User)
+def user_post_delete_handler(instance: User, **kwargs):
+    from ..expenses.models import Expense
+
+    schema_editor: PostgresSchemaEditor = connection.schema_editor()
+    partition_name = f"{Expense._meta.db_table}_{instance.username}"
+
+    if partition_name in schema_editor.connection.introspection.table_names():
+        schema_editor.delete_partition(model=Expense(), name=instance.username)
