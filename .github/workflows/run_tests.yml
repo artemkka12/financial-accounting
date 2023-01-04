@@ -3,10 +3,6 @@ name: Django Tests
 on:
   workflow_call:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - development
   pull_request:
     branches:
       - main
@@ -26,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:14-alpine
         env:
           POSTGRES_USER: ${{ secrets.DB_USER }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
