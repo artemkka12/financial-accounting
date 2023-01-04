@@ -1,5 +1,9 @@
 from django.db import models
 from django.db.models import Sum
+from psqlextra.manager import PostgresManager
+from psqlextra.models import PostgresPartitionedModel
+from psqlextra.query import PostgresQuerySet
+from psqlextra.types import PostgresPartitioningMethod
 
 from ..attachments.models import Attachment
 from ..common.models import BaseModel
@@ -27,7 +31,7 @@ class Category(BaseModel):
 
 
 # noinspection PyUnresolvedReferences
-class ExpenseQuerySet(models.QuerySet):
+class ExpenseQuerySet(PostgresQuerySet):
     def total(self) -> "ExpenseQuerySet":
         return self.aggregate(amount=Sum("amount"))
 
@@ -52,13 +56,27 @@ class ExpenseQuerySet(models.QuerySet):
             }
 
 
-class Expense(BaseModel):
-    objects = ExpenseQuerySet.as_manager()
+class ExpenseManager(PostgresManager.from_queryset(ExpenseQuerySet)):
+    ...
+
+
+class Expense(BaseModel, PostgresPartitionedModel):
+    objects = ExpenseManager()
 
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+
+    partition_key = models.IntegerField(null=True, blank=True)
+
+    class PartitioningMeta:
+        method = PostgresPartitioningMethod.LIST
+        key = ["partition_key"]
 
     def __str__(self) -> str:
         return f"{self.category} - {self.amount} {self.user.currency}"
+
+    def save(self, *args, **kwargs):
+        self.partition_key = self.user_id
+        super().save(*args, **kwargs)

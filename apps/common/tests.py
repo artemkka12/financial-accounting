@@ -10,9 +10,9 @@ fake = Faker()
 
 class CustomAPITestCase(APITestCase):
     def auth(self):
-        username = fake.email()
+        username = fake.user_name()
         data = {
-            "email": username,
+            "email": username + "@example.com",
             "username": username,
             "password": fake.password(),
         }

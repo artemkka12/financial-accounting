@@ -3,14 +3,15 @@ from django.db import models
 from ..common.models import BaseModel
 from ..users.models import User
 
-__all__ = ["Debt"]
+__all__ = ["Debt", "DebtType"]
+
+
+class DebtType(models.TextChoices):
+    BORROW = "BORROW", "BORROW"
+    LEND = "LEND", "LEND"
 
 
 class Debt(BaseModel):
-    class DebtType(models.TextChoices):
-        BORROW = "BORROW", "BORROW"
-        LEND = "LEND", "LEND"
-
     type = models.CharField(choices=DebtType.choices, max_length=32, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_paid = models.BooleanField(default=False)
