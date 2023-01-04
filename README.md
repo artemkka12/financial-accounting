@@ -8,8 +8,10 @@ REST API for the app.
 
 1. Python 3.10
 2. PostgreSQL
-3. Celery
-4. Redis
+3. Docker
+4. Nginx
+5. Celery
+6. Redis
 
 ### Setup
 
@@ -21,7 +23,7 @@ REST API for the app.
 ### 🔧 .env
 
 ```python
-# Django
+# DJANGO
 SECRET_KEY=
 DEBUG=
 
@@ -69,4 +71,18 @@ celery -A config worker -l info
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+```
+
+### Deployment with Docker 🐳
+
+#### Build docker image
+
+``` python
+docker-compose build
+```
+
+#### Run docker container
+
+``` python
+docker-compose up -d
 ```
