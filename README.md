@@ -8,8 +8,10 @@ REST API for the app.
 
 1. Python 3.10
 2. PostgreSQL
-3. Celery
-4. Redis
+3. Docker
+4. Nginx
+5. Celery
+6. Redis
 
 ### Setup
 
@@ -22,27 +24,27 @@ REST API for the app.
 
 ```python
 # DJANGO
-SECRET_KEY=
-DEBUG=
+SECRET_KEY =
+DEBUG =
 
 # Database
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-DB_HOST=
-DB_PORT=
+DB_NAME =
+DB_USER =
+DB_PASSWORD =
+DB_HOST =
+DB_PORT =
 
-SITE_URL=
+SITE_URL =
 
 # Redis
-CELERY_BROKER_URL=
-CELERY_RESULT_BACKEND=
+CELERY_BROKER_URL =
+CELERY_RESULT_BACKEND =
 
 # Email
-EMAIL_HOST=
-EMAIL_PORT=
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
+EMAIL_HOST =
+EMAIL_PORT =
+EMAIL_HOST_USER =
+EMAIL_HOST_PASSWORD =
 ```
 
 #### Run tests with coverage
@@ -69,4 +71,18 @@ celery -A config worker -l info
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
+```
+
+### Deployment with Docker 🐳
+
+#### Build docker image
+
+``` python
+docker-compose build
+```
+
+#### Run docker container
+
+``` python
+docker-compose up -d
 ```
