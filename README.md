@@ -65,6 +65,11 @@ celery -A config beat -l info
 celery -A config worker -l info
 ```
 
+#### Run celery flower
+```
+celery -A config flower
+```
+
 #### Deployment
 
 ``` python
