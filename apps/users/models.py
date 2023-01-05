@@ -1,4 +1,3 @@
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
 from django.db import connection, models
 from django.db.models import Sum
@@ -13,10 +12,6 @@ __all__ = ["User"]
 
 class User(BaseModel, AbstractUser):
     currency = models.CharField(max_length=3, choices=Currency.choices, default=Currency.USD)
-
-    def save(self, *args, **kwargs):
-        self.password = make_password(self.password)
-        super().save(*args, **kwargs)
 
     @property
     def budget(self):
