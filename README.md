@@ -19,7 +19,7 @@ REST API for the app.
 2. Install poetry ```pip install poetry```
 3. Install dependencies ```poetry install```
 4. Install pre-commit hooks ```pre-commit install```
-5. Install fixtures ``` python manage.py loaddata ./apps/*/fixtures/*.json ``` 
+5. Load fixtures ``` python manage.py loaddata ./apps/*/fixtures/*.json ``` 
 6. Create superuser ``` python manage.py createsuperuser ```
 
 ### 🔧 .env
