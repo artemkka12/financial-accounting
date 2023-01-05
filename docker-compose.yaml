@@ -39,6 +39,9 @@ services:
       - POSTGRES_NAME=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - SEND_TO_SENTRY=${SEND_TO_SENTRY}
+      - SENTRY_SDK_DSN=${SENTRY_SDK_DSN}
+      - SENTRY_SDK_ENVIRONMENT=${SENTRY_SDK_ENVIRONMENT}
     ports:
       - "8000:8000"
     depends_on:

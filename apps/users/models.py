@@ -15,8 +15,8 @@ class User(BaseModel, AbstractUser):
 
     @property
     def budget(self):
-        incomes = self.income_set.all().aggregate(Sum("amount"))["amount__sum"]
-        expenses = self.expense_set.all().aggregate(Sum("amount"))["amount__sum"]
+        incomes = self.income_set.all().aggregate(Sum("amount"))["amount__sum"] or 0
+        expenses = self.expense_set.all().aggregate(Sum("amount"))["amount__sum"] or 0
 
         return incomes - expenses
 
