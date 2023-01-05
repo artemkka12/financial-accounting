@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -34,7 +34,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user.set_password(serializer.validated_data["password"])
         user.save()
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(
         detail=True,
@@ -46,4 +46,4 @@ class UserViewSet(viewsets.ModelViewSet):
     def current_budget(self, request, *args, **kwargs):
         user = self.get_object()
         serializer = self.get_serializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
