@@ -27,6 +27,15 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return super().get_serializer_class()
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        user.set_password(serializer.validated_data["password"])
+        user.save()
+
+        return Response(serializer.data)
+
     @action(
         detail=True,
         methods=["GET"],
