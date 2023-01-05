@@ -3,42 +3,42 @@
     "model": "attachments.attachment",
     "pk": 1,
     "fields": {
-      "file": "media/default_categories/clothes.jpeg"
+      "file": "default_categories/clothes.jpeg"
     }
   },
   {
     "model": "attachments.attachment",
     "pk": 2,
     "fields": {
-      "file": "media/default_categories/food.jpeg"
+      "file": "default_categories/food.jpeg"
     }
   },
   {
     "model": "attachments.attachment",
     "pk": 3,
     "fields": {
-      "file": "media/default_categories/other.jpeg"
+      "file": "default_categories/other.jpeg"
     }
   },
   {
     "model": "attachments.attachment",
     "pk": 4,
     "fields": {
-      "file": "media/default_categories/house.jpg"
+      "file": "default_categories/house.jpg"
     }
   },
   {
     "model": "attachments.attachment",
     "pk": 5,
     "fields": {
-      "file": "media/default_categories/transport.jpeg"
+      "file": "default_categories/transport.jpeg"
     }
   },
   {
     "model": "attachments.attachment",
     "pk": 6,
     "fields": {
-      "file": "media/default_categories/sport.png"
+      "file": "default_categories/sport.png"
     }
   }
 ]
