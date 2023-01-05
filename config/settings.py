@@ -213,10 +213,11 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
+SEND_TO_SENTRY = os.getenv("SEND_TO_SENTRY")
 SENTRY_SDK_DSN = os.getenv("SENTRY_SDK_DSN")
 SENTRY_SDK_ENVIRONMENT = os.getenv("SENTRY_SDK_ENVIRONMENT")
 
-if not DEBUG:
+if SEND_TO_SENTRY:
     sentry_sdk.init(
         dsn=SENTRY_SDK_DSN,
         integrations=[
