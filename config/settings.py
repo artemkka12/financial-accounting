@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
 
+import sentry_sdk
 from dotenv import load_dotenv
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
 
@@ -29,6 +31,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "django_celery_results",
     "psqlextra",
+    "debug_toolbar",
     # Local apps
     "apps.common",
     "apps.debts",
@@ -46,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -212,3 +216,28 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
+
+SEND_TO_SENTRY = os.getenv("SEND_TO_SENTRY")
+SENTRY_SDK_DSN = os.getenv("SENTRY_SDK_DSN")
+SENTRY_SDK_ENVIRONMENT = os.getenv("SENTRY_SDK_ENVIRONMENT")
+
+if SEND_TO_SENTRY:
+    sentry_sdk.init(
+        dsn=SENTRY_SDK_DSN,
+        integrations=[
+            DjangoIntegration(),
+        ],
+        environment=SENTRY_SDK_ENVIRONMENT,
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )
+
+if DEBUG:
+    import socket
+
+    DEBUG_TOOLBAR_CONFIG = {
+        "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+    }
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
