@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 import sentry_sdk
@@ -24,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third party apps
+    "graphene_django",
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
@@ -201,6 +203,10 @@ SWAGGER_SETTINGS = {
     },
 }
 
+GRAPHENE = {
+    "SCHEMA": "config.schema.schema",
+}
+
 SITE_URL = os.getenv("SITE_URL")
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
@@ -221,7 +227,7 @@ SEND_TO_SENTRY = os.getenv("SEND_TO_SENTRY")
 SENTRY_SDK_DSN = os.getenv("SENTRY_SDK_DSN")
 SENTRY_SDK_ENVIRONMENT = os.getenv("SENTRY_SDK_ENVIRONMENT")
 
-if SEND_TO_SENTRY:
+if SEND_TO_SENTRY and "test" not in sys.argv:
     sentry_sdk.init(
         dsn=SENTRY_SDK_DSN,
         integrations=[
